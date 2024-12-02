@@ -14,4 +14,6 @@ class AppIcons {
   static const String settingIcon = "assets/icons/setting.svg";
   static const String gpsIcon = "assets/icons/gps.svg";
   static const String searchIcon = "assets/icons/search.svg";
+  static const String chatIcon = "assets/icons/chat.svg";
+  static const String storeIcon = "assets/icons/store.svg";
 }

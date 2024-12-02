@@ -1,11 +1,12 @@
+import 'package:cda/app/modules/chat/page.dart';
 import 'package:cda/app/modules/map/page.dart';
 import 'package:cda/app/modules/my_page/page.dart';
 import 'package:cda/app/modules/review/page.dart';
+import 'package:cda/app/modules/store/page.dart';
 import 'package:cda/core/utils/extensions/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/values/icons.dart';
@@ -27,6 +28,8 @@ class MainPage extends StatelessWidget {
         children: [
           MapPage().keepPage,
           ExhibitionPage().keepPage,
+          ChatPage().keepPage,
+          StorePage().keepPage,
           ReviewPage().keepPage,
           MyPage().keepPage,
         ],
@@ -46,8 +49,10 @@ class MainPage extends StatelessWidget {
         // unselectedLabelStyle: TextStyle(color: Colors.red),
         unselectedItemColor: Colors.grey,
         selectedItemColor: AppColors.primaryColor,
-        showSelectedLabels: false, // 선택된 항목의 라벨 숨기기
-        showUnselectedLabels: false, // 선택되지 않은 항목의 라벨 숨기기
+        showSelectedLabels: false,
+        // 선택된 항목의 라벨 숨기기
+        showUnselectedLabels: false,
+        // 선택되지 않은 항목의 라벨 숨기기
         onTap: (value) {
           controller.changePageIndex(value);
         },
@@ -59,9 +64,13 @@ class MainPage extends StatelessWidget {
           BottomNavigationBarItem(
               icon: _buildSvgIcon(AppIcons.locationIcon, 1), label: ''),
           BottomNavigationBarItem(
-              icon: _buildSvgIcon(AppIcons.reviewIcon, 2), label: ''),
+              icon: _buildSvgIcon(AppIcons.chatIcon, 2), label: ''),
           BottomNavigationBarItem(
-              icon: _buildSvgIcon(AppIcons.profileIcon, 3), label: ''),
+              icon: _buildSvgIcon(AppIcons.storeIcon, 3), label: ''),
+          BottomNavigationBarItem(
+              icon: _buildSvgIcon(AppIcons.reviewIcon, 4), label: ''),
+          BottomNavigationBarItem(
+              icon: _buildSvgIcon(AppIcons.profileIcon, 5), label: ''),
         ]);
   }
 
@@ -70,6 +79,8 @@ class MainPage extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 6),
       child: SvgPicture.asset(
         assetName,
+        width: 24,
+        height: 24,
         colorFilter: ColorFilter.mode(
             controller.currentIndex.value == index
                 ? AppColors.primaryColor

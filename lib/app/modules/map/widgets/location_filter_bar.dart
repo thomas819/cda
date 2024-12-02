@@ -22,7 +22,7 @@ class LocationFilterBar extends StatelessWidget {
                     Text(
                       selectedCity.value,
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

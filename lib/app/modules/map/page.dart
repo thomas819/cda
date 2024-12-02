@@ -1,20 +1,37 @@
-import 'package:cda/routes/app_pages.dart';
+import 'package:cda/app/modules/map/widgets/location_filter_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
-
-// import 'package:flutter_naver_map/flutter_naver_map.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-
-import '../../../core/theme/app_colors.dart';
 import 'controller.dart';
-import 'repository.dart';
-import 'widgets/location_filter_bar.dart';
 
 class MapPage extends StatelessWidget {
   MapPage({Key? key}) : super(key: key);
 
   final List<Map<String, String>> exhibitions = [
+    {
+      'title': '미래를 그리다',
+      'location': '서울 현대미술관',
+      'date': '2024.09.01 - 2024.12.31',
+      'status': '전시중',
+      'description': '현대 사회와 미래 기술을 예술로 표현한 전시입니다.',
+      'image': 'https://www.mmca.go.kr/upload/exhibition/2023/08/2023082505420682414560.jpg',
+    },
+    {
+      'title': '빛과 그림자',
+      'location': '부산 아트센터',
+      'date': '2024.10.01 - 2025.01.15',
+      'status': '전시중',
+      'description': '빛과 어둠의 조화를 통해 감각을 일깨우는 예술 전시입니다.',
+      'image': 'https://www.kumc.or.kr/seasonPress/KUMM09/img_sub/KS46_img11.jpg',
+    },
+    {
+      'title': '자연의 소리',
+      'location': '인천 문화예술관',
+      'date': '2024.11.01 - 2025.02.01',
+      'status': '전시중',
+      'description': '자연에서 영감을 얻은 소리와 이미지를 결합한 작품 전시입니다.',
+      'image': 'https://www.noblesse.com/shop/data/m/editor_new/2020/09/09/3cbef4f7922ef6b305.jpg',
+    },
     {
       'title': '우주를 보다',
       'location': '대전 과학관',
@@ -35,17 +52,11 @@ class MapPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MapController controller = Get.put(MapController());
-
     return GetBuilder<MapController>(
-        init: MapController(),
+      init: MapController(),
         builder: (controller) {
           return Stack(
             children: [
-              // Positioned.fill(
-              //     child: Container(
-              //   color: Colors.grey.shade200,
-              // )),
               Positioned.fill(
                 child: NaverMap(
                   key: UniqueKey(),
@@ -57,30 +68,12 @@ class MapPage extends StatelessWidget {
                   ),
                   onMapReady: (NaverMapController mapController) {
                     controller.mapController = mapController;
-                    controller.addDefaultMarkers();
-                    // controller.loadMarkersWithClustering();
-                  },
-                  onCameraIdle: () async {
-                    // if (controller.mapController == null) return;
-                    //
-                    // double newZoom = await controller.mapController
-                    //     ?.getCameraPosition()
-                    //     .then((pos) => pos.zoom) ??
-                    //     0.0;
-                    // if ((newZoom - controller.currentZoom.value).abs() > 0.1) {
-                    //   controller.currentZoom.value = newZoom;
-                    //   // await controller.loadMarkersWithClustering();
-                    // }
-                  },
-                  onSelectedIndoorChanged: (selectedIndoor) {
-                    print(
-                        "@@onSelectedIndoorChanged=${selectedIndoor.toString()}");
                   },
                 ),
               ),
-              // 하단 목록 부분
+              // DraggableScrollableSheet
               DraggableScrollableSheet(
-                controller: controller.sheetDSC,
+                // key: GlobalKey(),
                 snap: true,
                 initialChildSize: 0.3,
                 minChildSize: 0.3,
@@ -98,45 +91,22 @@ class MapPage extends StatelessWidget {
                       ],
                     ),
                     child: CustomScrollView(
-                      physics: BouncingScrollPhysics(),
                       controller: scrollController,
                       slivers: [
                         SliverToBoxAdapter(
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Align(
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: Container(
-                                    width: 40,
-                                    height: 6,
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.shade400,
-                                      borderRadius: BorderRadius.circular(3),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              LocationFilterBar()
+                              LocationFilterBar(),
                             ],
                           ),
                         ),
-                        SliverPadding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          sliver: SliverList.separated(
-                            itemCount: exhibitions.length,
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return Divider(); // 아이템 사이의 간격
-                            },
-                            itemBuilder: (BuildContext context, int index) {
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                                (context, index) {
                               final exhibition = exhibitions[index];
-
                               return GestureDetector(
                                 onTap: () {
-                                  Get.toNamed(Routes.exhibitionDetail,arguments: exhibition);
+                                  Get.toNamed('/exhibitionDetail', arguments: exhibition);
                                 },
                                 child: buildExhibitionCard(
                                   image: exhibition['image']!,
@@ -147,6 +117,7 @@ class MapPage extends StatelessWidget {
                                 ),
                               );
                             },
+                            childCount: exhibitions.length,
                           ),
                         ),
                       ],
@@ -167,73 +138,19 @@ class MapPage extends StatelessWidget {
     required String status,
   }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.all(8.0),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 이미지
-          Image.network(
-            image,
-            width: 100,
-            height: 100,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) => Container(
-              width: 100,
-              height: 130,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-          ),
+          Image.network(image, width: 100, height: 100, fit: BoxFit.cover),
           SizedBox(width: 16),
-          // 전시 정보
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 상태
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Text(
-                    status,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                // 전시 제목
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 4),
-                // 전시관
-                Text(
-                  location,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
-                ),
-                SizedBox(height: 18),
-                // 날짜
-                Text(
-                  date,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
-                ),
+                Text(status, style: TextStyle(fontSize: 12)),
+                Text(title, style: TextStyle(fontSize: 16)),
+                Text(location, style: TextStyle(fontSize: 14)),
+                Text(date, style: TextStyle(fontSize: 14)),
               ],
             ),
           ),

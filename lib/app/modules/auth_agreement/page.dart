@@ -1,3 +1,4 @@
+import 'package:cda/app/modules/auth_agreement/widgets/TermsWebViewPage.dart';
 import 'package:cda/app/modules/auth_verification/page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -51,7 +52,23 @@ class AuthAgreementPage extends StatelessWidget {
                       '[필수] 개인정보 처리방침 동의',
                       style: TextStyle(fontSize: 12),
                     ),
-                    TextButton(onPressed: () {}, child: Text('보기')),
+                    SizedBox(width: 8,),
+                    GestureDetector(
+                        onTap: () {
+                          Get.to(() => TermsWebViewPage(
+                                url:
+                                    'https://assorted-fennel-b20.notion.site/14d0802783af80ffa3effc1cfa491f18?pvs=74',
+                                title: '개인정보 처리방침',
+                              ));
+                        },
+                        child:  Text(
+                          '보기',
+                          style: TextStyle(
+                              fontSize: 12, // 글씨 크기 설정
+                              decoration: TextDecoration.underline, // 밑줄 추가
+                              color: Colors.grey.shade300
+                          ),
+                        )),
                   ],
                 ),
                 value: controller.isPrivacyPolicyChecked.value,
@@ -68,7 +85,24 @@ class AuthAgreementPage extends StatelessWidget {
                       '[필수] 서비스 이용약관 동의',
                       style: TextStyle(fontSize: 12),
                     ),
-                    TextButton(onPressed: () {}, child: Text('보기')),
+                    SizedBox(width: 8,),
+
+                    GestureDetector(
+                        onTap: () {
+                          Get.to(() => TermsWebViewPage(
+                                url:
+                                    'https://assorted-fennel-b20.notion.site/14d0802783af80ecb60dd894a03053bf?pvs=74',
+                                title: '개인정보 처리방침',
+                              ));
+                        },
+                        child:  Text(
+                          '보기',
+                          style: TextStyle(
+                              fontSize: 12, // 글씨 크기 설정
+                              decoration: TextDecoration.underline, // 밑줄 추가
+                              color: Colors.grey.shade300
+                          ),
+                        )),
                   ],
                 ),
                 value: controller.isServiceTermsChecked.value,
@@ -85,7 +119,25 @@ class AuthAgreementPage extends StatelessWidget {
                       '[선택] 할인 쿠폰, 프로모션 등 광고 수신동의',
                       style: TextStyle(fontSize: 12),
                     ),
-                    TextButton(onPressed: () {}, child: Text('보기')),
+                    SizedBox(width: 8,),
+
+                    GestureDetector(
+                        onTap: () {
+                          Get.to(() => TermsWebViewPage(
+                                url:
+                                    'https://assorted-fennel-b20.notion.site/14d0802783af80eb947bf4d63800abe0?pvs=74',
+                                title: '개인정보 처리방침',
+                              ));
+                        },
+                        child: Text(
+                          '보기',
+                          style: TextStyle(
+                            fontSize: 12, // 글씨 크기 설정
+                            decoration: TextDecoration.underline, // 밑줄 추가
+                            color: Colors.grey.shade300
+                          ),
+                        )
+                    ),
                   ],
                 ),
                 value: controller.isPromotionChecked.value,
@@ -98,7 +150,7 @@ class AuthAgreementPage extends StatelessWidget {
                 child: FilledButton(
                   onPressed: controller.isAllRequiredChecked
                       ? () {
-                          Get.to(()=>AuthVerificationPage());
+                          Get.to(() => AuthVerificationPage());
                         }
                       : null, // 비활성화
                   style: ElevatedButton.styleFrom(

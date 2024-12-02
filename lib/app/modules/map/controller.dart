@@ -17,26 +17,20 @@ class MapController extends GetxController {
 
   // NaverMapController? mapController;
   Rx<double> currentZoom = 10.0.obs; // 현재 줌 레벨 상태 저장
-  DraggableScrollableController sheetDSC = DraggableScrollableController();
-  final RxDouble sheetExtent = 0.3.obs;
   ScrollController sheetScrollController = ScrollController();
   NaverMapController? mapController;
   RxList<NMarker> markers = <NMarker>[].obs;
 
   @override
   void onInit() {
-    sheetDSC.addListener(
-      () {
-        updateSheetExtent();
-        print("@@sheetDSC.size=${sheetDSC.size}");
-      },
-    );
     super.onInit();
   }
 
-  void updateSheetExtent() {
-    sheetExtent.value = sheetDSC.size; // 현재 DraggableScrollableSheet의 크기를 업데이트
+  @override
+  void onClose() {
+    super.onClose();
   }
+
 
   Future<void> addDefaultMarkers() async {
     markers.assignAll([

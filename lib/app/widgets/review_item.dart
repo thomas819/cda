@@ -1,3 +1,4 @@
+import 'package:cda/core/values/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:like_button/like_button.dart';
@@ -141,8 +142,8 @@ class ReviewItem extends StatelessWidget {
                       // Change icon based on like status
                       return SvgPicture.asset(
                         isLiked
-                            ? 'assets/icons/favorite.svg'
-                            : 'assets/icons/favorite_outline.svg',
+                            ? AppIcons.favoriteIcon
+                            : AppIcons.favoriteOutlinedIcon,
                       );
                     },
                   ),

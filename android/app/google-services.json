@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1020968001233",
+    "project_id": "cda-app-8f7e5",
+    "storage_bucket": "cda-app-8f7e5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1020968001233:android:e35edb63cda4080858aff0",
+        "android_client_info": {
+          "package_name": "com.infyni.cda"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCIkWBQvUuZB-BqONABKyQPiMG7ZXOITo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
